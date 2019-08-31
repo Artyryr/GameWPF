@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.539
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameWPF", "GameWPF\GameWPF.csproj", "{A42E02C2-7F5A-4ECB-9D3A-949F39D251D3}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A42E02C2-7F5A-4ECB-9D3A-949F39D251D3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A42E02C2-7F5A-4ECB-9D3A-949F39D251D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A42E02C2-7F5A-4ECB-9D3A-949F39D251D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A42E02C2-7F5A-4ECB-9D3A-949F39D251D3}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A649B13B-DAFC-43D6-8D9B-1DA4995C2AD8}
+	EndGlobalSection
+EndGlobal
