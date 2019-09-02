@@ -8,7 +8,6 @@ namespace GameWPF
 {
     public class Workshop : Building
     {
-        //public int Lvl { get; set; }
         public Workshop()
         {
             Lvl = 1;

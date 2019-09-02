@@ -10,11 +10,11 @@ namespace GameWPF.Model
     public class GameResults
     {
         public string UserName { get; set; }
-        public GameResult GameResult{get;set;}
+        public GameResult GameResult { get; set; }
         public int NumberOfBots { get; set; }
         public double GameDuration { get; set; }
 
-        public GameResults(string userName, GameResult result, int numberOfBots, double gameDuration )
+        public GameResults(string userName, GameResult result, int numberOfBots, double gameDuration)
         {
             UserName = userName;
             GameResult = result;

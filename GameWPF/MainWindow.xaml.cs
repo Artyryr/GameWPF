@@ -93,11 +93,13 @@ namespace GameWPF
         {
             if (gameOver == false)
             {
+                
                 enemiesLeft = false;
                 SetPopulation();
                 SetGoods();
                 SetCredits();
                 SetData();
+                SetImage(Base.Position[0], Base.Position[1], "Image/ownCastle.png");
                 CheckWinningCombination();
                 foreach (Base enemy in enemies.ToList())
                 {
@@ -411,6 +413,7 @@ namespace GameWPF
                 gameOver = true;
 
                 Menu menu = new Menu();
+                SetImage(Base.Position[0], Base.Position[1],"Image/grass.png");
 
                 MessageBoxResult result = MessageBox.Show("Поражение!. \nВаша база была уничтожена. ",
                                            "Confirmation",

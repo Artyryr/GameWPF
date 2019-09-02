@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:GameWPF"
         mc:Ignorable="d"
         Title="Menu" Height="700" Width="700"
-        Background="AliceBlue">
+        Background="AliceBlue" Loaded="Window_Loaded">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition></RowDefinition>
@@ -34,7 +34,7 @@
         <TextBox Name="GSDurationTxt" Grid.Row="3" Grid.Column="1" Margin="20,5,5,5" HorizontalAlignment="Left" VerticalAlignment="Center" MinWidth="200" MinHeight="50" FontSize="25" TextAlignment="Center">4</TextBox>
         <Button Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" Margin="264,10,264,10" Click="Button_Click">Начать Игру</Button>
         <Label Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="25" FontWeight="Bold" Margin="0,0,20,0">Статистика Игр</Label>
-        <DataGrid x:Name="resultsGrid" Grid.Row="6" Grid.RowSpan="2" Grid.ColumnSpan="2" AutoGenerateColumns="True" ColumnWidth="25*" IsReadOnly="True">
+        <DataGrid x:Name="resultsGrid" Grid.Row="6" Grid.RowSpan="2" Grid.ColumnSpan="2" AutoGenerateColumns="True" ColumnWidth="25*" IsReadOnly="True" >
             <DataGrid.Resources>
                
             </DataGrid.Resources>

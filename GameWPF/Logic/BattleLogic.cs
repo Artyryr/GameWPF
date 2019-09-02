@@ -25,13 +25,11 @@ namespace GameWPF.Logic
         public AttackWindow AttackWindow { get; set; }
         public bool IsUserPlaying { get; set; }
 
-        //int attackCycle = 0;
         Random random = new Random();
 
         public BattleLogic(Base ownBase, Army army, List<Base> enemies, TimeSpan gameStepDuration, bool isUserPlaying, MainWindow window)
         {
             OwnBase = ownBase;
-            //Enemy = enemyBase;
             Army = army;
             Enemies = enemies;
             GameStepDuration = gameStepDuration;
@@ -50,83 +48,6 @@ namespace GameWPF.Logic
             AttackWindow = attackWindow;
         }
 
-        //public void LifeCycle(TimeSpan GameStepDuration, Base ownBase, MainWindow window)
-        //{
-        //    CreditsStep();
-        //    PopulationStep();
-        //    GoodsStep();
-        //    //SetEnemies();
-        //    if (Behavior == BehaviorType.Aggressor)
-        //    {
-        //        if (attackCycle % 2 == 0 && ownBase.Army.TotalArmy() >= ownBase.ArmyLimit / 2)
-        //        {
-        //            attackCycle++;
-        //            Army army = new Army(0, ownBase.Army.AttackUnits / 2, 0);
-        //            AttackEnemy(GameStepDuration, army, window);
-        //        }
-        //        if (ownBase.Army.TotalArmy() <= ownBase.ArmyLimit / 2)
-        //        {
-        //            attackCycle++;
-        //            ArmyCreation(0, GetMaxNumberOfArmyCreation(), 0);
-        //        }
-        //        else if (ownBase.GetUpdatePrice(Hut)[0] <= Credits && GetUpdatePrice(Hut)[1] <= Goods && Hut.Lvl < 10)
-        //        {
-        //            attackCycle++;
-        //            BuildingLvlUp(Hut);
-        //        }
-        //    }
-        //    else if (Behavior == BehaviorType.Builder)
-        //    {
-        //        Building building = GetBuildingWithMinimalLvl();
-        //        if (building is Hut)
-        //        {
-        //            building = this.Hut;
-        //        }
-        //        else if (building is Portal)
-        //        {
-        //            building = Portal;
-        //        }
-        //        else if (building is Residence)
-        //        {
-        //            building = Residence;
-        //        }
-        //        else if (building is Wall)
-        //        {
-        //            building = Wall;
-        //        }
-        //        else if (building is Workshop)
-        //        {
-        //            building = Workshop;
-        //        }
-
-        //        if ((BaseLvl < building.Lvl - 2) && BaseLvl <= 6)
-        //        {
-        //            BaseLvlUp();
-        //        }
-        //        else if ((building.Lvl >= 3 && Army.TotalArmy() < ArmyLimit / 2) || (building.Lvl >= 5 && Army.TotalArmy() < ArmyLimit * 0.7))
-        //        {
-        //            ArmyCreation(0, 0, GetMaxNumberOfArmyCreation());
-        //        }
-        //        else if (GetUpdatePrice(building)[0] <= Credits && GetUpdatePrice(building)[1] <= Goods && building.Lvl < 5)
-        //        {
-        //            BuildingLvlUp(building);
-        //        }
-        //        else if (Army.TotalArmy() > ArmyLimit * 0.7)
-        //        {
-
-        //        }
-        //        else if (GetUpdatePrice(building)[0] <= Credits && GetUpdatePrice(building)[1] <= Goods && building.Lvl < 5)
-        //        {
-        //            BuildingLvlUp(building);
-        //        }
-        //        //else if()
-        //    }
-        //}
-        //public new void SetEnemies(List<Base> enemies, Base playerBase)
-        //{
-        //    Enemies = new List<Base>(enemies);
-        //    Enemies[Id] = playerBase;
-        //}
         public void AttackEnemy()
         {
             int attackedEnemy = random.Next(0, Enemies.Count());
@@ -152,6 +73,7 @@ namespace GameWPF.Logic
                     {
                         AttackWindow.Hide();
                     }
+
                     OwnBase.Army.AttackUnits -= attackUnits;
                     OwnBase.Army.SpeedUnits -= speedUnits;
                     OwnBase.Army.DefenceUnits -= defenceUnits;
@@ -186,12 +108,8 @@ namespace GameWPF.Logic
                         }
                         else
                         {
-                            if (Window.enemies[Enemy.Id - 1].Active != false)
-                            {
                                 SetImage(Enemy.Position[0], Enemy.Position[1], "Image/grass.png", Window);
-                                Window.enemies[Enemy.Id - 1].Active = false;
-                                //Window.enemies[Enemy.Id - 1] = null;
-                            }
+                                Window.enemies[Enemy.Id - 1].Active = false;                       
                         }
 
                         if (OwnBase.Equals(Window.Base))
@@ -222,14 +140,7 @@ namespace GameWPF.Logic
                         }
                         else
                         {
-                            if (OwnBase.Active == true)
-                            {
-                                Window.SetEnemyImage(OwnBase.Position[0], OwnBase.Position[1], "Image/enemiesCastle.png", OwnBase.Id);
-                            }
-                            else
-                            {
-                                SetImage(OwnBase.Position[0], OwnBase.Position[1], "Image/grass.png", Window);
-                            }
+                            Window.SetEnemyImage(OwnBase.Position[0], OwnBase.Position[1], "Image/enemiesCastle.png", OwnBase.Id);
                             SetImage(Enemy.Position[0], Enemy.Position[1], "Image/grass.png", Window);
                         }
                     }
@@ -280,9 +191,13 @@ namespace GameWPF.Logic
                                 SetImage(Enemy.Position[0], Enemy.Position[1], "Image/grass.png", Window);
                             }
 
-                            if (OwnBase.Active == true)
+                            if (OwnBase.Equals(Window.Base))
                             {
-                                Window.SetEnemyImage(OwnBase.Position[0], OwnBase.Position[1], "Image/enemiesCastle.png", OwnBase.Id);
+                                SetImage(OwnBase.Position[0], OwnBase.Position[1], "Image/ownCastle.png", Window);
+                            }
+                            else if (OwnBase.Active == true)
+                            {
+                                Window.SetEnemyImage(OwnBase.Position[0], OwnBase.Position[1], "Image/ownCastle.png", OwnBase.Id);
                             }
                             else
                             {
@@ -296,7 +211,7 @@ namespace GameWPF.Logic
                                                "Confirmation",
                                                MessageBoxButton.OK,
                                                MessageBoxImage.Exclamation);
-                       
+
                             AttackWindow.Close();
                         }
                     }
@@ -393,7 +308,7 @@ namespace GameWPF.Logic
                     {
                         if (i < iMax)
                         {
-                                SetImage(firstPoint[0] - i - 1, firstPoint[1] - j, "Image/" + knightImg, window);                 
+                            SetImage(firstPoint[0] - i - 1, firstPoint[1] - j, "Image/" + knightImg, window);
                             SetImage(firstPoint[0] - i, firstPoint[1] - j, "Image/grass.png", window);
 
                             if (backMovement == false)
@@ -413,7 +328,7 @@ namespace GameWPF.Logic
                         }
                         if (j < jMax)
                         {
-                                SetImage(firstPoint[0] - i , firstPoint[1] - j -1, "Image/" + knightImg, window);
+                            SetImage(firstPoint[0] - i, firstPoint[1] - j - 1, "Image/" + knightImg, window);
                             SetImage(firstPoint[0] - i, firstPoint[1] - j, "Image/grass.png", window);
 
                             if (backMovement == false)
@@ -437,7 +352,7 @@ namespace GameWPF.Logic
                     {
                         if (i < iMax)
                         {
-                                SetImage(firstPoint[0] + i + 1, firstPoint[1] - j, "Image/" + knightImg, window);
+                            SetImage(firstPoint[0] + i + 1, firstPoint[1] - j, "Image/" + knightImg, window);
                             SetImage(firstPoint[0] + i, firstPoint[1] - j, "Image/grass.png", window);
 
                             if (backMovement == false)
@@ -457,7 +372,7 @@ namespace GameWPF.Logic
                         }
                         if (j < jMax)
                         {
-                                SetImage(firstPoint[0] + i , firstPoint[1] - j - 1, "Image/" + knightImg, window);
+                            SetImage(firstPoint[0] + i, firstPoint[1] - j - 1, "Image/" + knightImg, window);
                             SetImage(firstPoint[0] + i, firstPoint[1] - j, "Image/grass.png", window);
 
                             if (backMovement == false)
@@ -483,7 +398,7 @@ namespace GameWPF.Logic
                     {
                         if (i < iMax)
                         {
-                                SetImage(firstPoint[0] - i - 1, firstPoint[1] + j, "Image/" + knightImg, window);
+                            SetImage(firstPoint[0] - i - 1, firstPoint[1] + j, "Image/" + knightImg, window);
                             SetImage(firstPoint[0] - i, firstPoint[1] + j, "Image/grass.png", window);
 
                             if (backMovement == false)
@@ -503,7 +418,7 @@ namespace GameWPF.Logic
                         }
                         if (j < jMax)
                         {
-                                SetImage(firstPoint[0] - i , firstPoint[1] + j + 1, "Image/" + knightImg, window);
+                            SetImage(firstPoint[0] - i, firstPoint[1] + j + 1, "Image/" + knightImg, window);
                             SetImage(firstPoint[0] - i, firstPoint[1] + j, "Image/grass.png", window);
 
                             if (backMovement == false)
@@ -527,7 +442,7 @@ namespace GameWPF.Logic
                     {
                         if (i < iMax)
                         {
-                                SetImage(firstPoint[0] + i + 1, firstPoint[1] + j, "Image/" + knightImg, window);
+                            SetImage(firstPoint[0] + i + 1, firstPoint[1] + j, "Image/" + knightImg, window);
                             SetImage(firstPoint[0] + i, firstPoint[1] + j, "Image/grass.png", window);
 
                             if (backMovement == false)
@@ -546,7 +461,7 @@ namespace GameWPF.Logic
                         }
                         if (j < jMax)
                         {
-                                SetImage(firstPoint[0] + i, firstPoint[1] + j + 1, "Image/" + knightImg, window);
+                            SetImage(firstPoint[0] + i, firstPoint[1] + j + 1, "Image/" + knightImg, window);
                             SetImage(firstPoint[0] + i, firstPoint[1] + j, "Image/grass.png", window);
 
                             if (backMovement == false)
@@ -568,7 +483,7 @@ namespace GameWPF.Logic
                 }
                 if (backMovement == true)
                 {
-                    if(IsUserPlaying == true)
+                    if (IsUserPlaying == true)
                     {
                         SetImage(secondPoint[0], secondPoint[1], "Image/" + castleImg, window);
                     }
@@ -581,23 +496,11 @@ namespace GameWPF.Logic
                         SetImage(secondPoint[0], secondPoint[1], "Image/grass.png", window);
                     }
                 }
-                //else
-                //{
-                //    if (IsUserPlaying == true)
-                //    {
+                
                 //        SetImage(firstPoint[0], firstPoint[1], "Image/" + castleImg, window);
-                //    }
-                //    else if (OwnBase.Active == true)
-                //    {
-                //        Window.SetEnemyImage(firstPoint[0], firstPoint[1], "Image/" + castleImg, OwnBase.Id);
-                //    }
-                //    else
-                //    {
-                //        SetImage(firstPoint[0], secondPoint[1], "Image/grass.png", window);
-                //    }
-                //}
+
             }
-            
+
         }
         private double GetSurvived(Army army, Base enemy)
         {

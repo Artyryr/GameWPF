@@ -140,7 +140,7 @@ namespace GameWPF
                 PopulationLimit += 1000;
                 ArmyLimit += 200;
 
-                if(Wall.Lvl > 5)
+                if (Wall.Lvl > 5)
                 {
                     Wall.Lvl -= 5;
                 }
@@ -159,11 +159,11 @@ namespace GameWPF
             double credits = 102;
             double goods = 102;
 
-            double[] prices = { credits,goods};
+            double[] prices = { credits, goods };
 
             if (building is Hut && Hut.Lvl > 1)
             {
-                credits = PriceOfUpdate(Hut.Lvl,creditsNeeded);
+                credits = PriceOfUpdate(Hut.Lvl, creditsNeeded);
                 goods = PriceOfUpdate(Hut.Lvl, goodsNeeded);
 
                 prices = new double[] { credits, goods };
@@ -209,7 +209,7 @@ namespace GameWPF
 
             if (building.Lvl > 1)
             {
-                credits = Math.Round(Convert.ToDouble(PriceOfUpdate(building.Lvl,credits)), 0);
+                credits = Math.Round(Convert.ToDouble(PriceOfUpdate(building.Lvl, credits)), 0);
                 goods = Convert.ToInt32(PriceOfUpdate(building.Lvl, goods));
             }
 
@@ -268,13 +268,13 @@ namespace GameWPF
                 Console.WriteLine(sell);
             }
         }
-        public void ArmyCreation(int speed,int attack, int defence)
+        public void ArmyCreation(int speed, int attack, int defence)
         {
             int totalPrice = 10 * (speed + attack + defence);
             int totalGoods = 10 * (speed + attack + defence);
             int totalPeople = speed + attack + defence;
 
-            if(Credits - totalPrice >= 0 && Goods - totalGoods >= 0 && Population - totalPeople >= 0)
+            if (Credits - totalPrice >= 0 && Goods - totalGoods >= 0 && Population - totalPeople >= 0)
             {
                 if (Army.TotalArmy() + totalPeople <= ArmyLimit)
                 {
@@ -303,7 +303,7 @@ namespace GameWPF
         }
         public double PriceOfUpdate(int lvl, double initialValue)
         {
-            double result = Math.Round(Convert.ToDouble(100 * (lvl - 1) + initialValue + lvl / 0.985), 0); 
+            double result = Math.Round(Convert.ToDouble(100 * (lvl - 1) + initialValue + lvl / 0.985), 0);
             return result;
         }
         public void LifeCycle(TimeSpan time, Window win)

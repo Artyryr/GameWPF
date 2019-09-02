@@ -29,7 +29,7 @@ namespace GameWPF.Model
         {
             Id = id;
             Position = position;
-            lock (random) 
+            lock (random)
             {
                 Behavior = (BehaviorType)random.Next(1, 4);
             }
@@ -139,7 +139,7 @@ namespace GameWPF.Model
                         attackCycle++;
                         ArmyCreation(0, 0, GetMaxNumberOfArmyCreation());
                     }
-                    else if (GetUpdatePrice(building)[0] <= Credits  && GetUpdatePrice(building)[1] <= Goods && building.Lvl < 3)
+                    else if (GetUpdatePrice(building)[0] <= Credits && GetUpdatePrice(building)[1] <= Goods && building.Lvl < 3)
                     {
                         attackCycle++;
                         BuildingLvlUp(building);
@@ -169,19 +169,19 @@ namespace GameWPF.Model
                         BuildingLvlUp(Portal);
                     }
 
-                    if(Army.TotalArmy() < ArmyLimit * 0.7 && BaseLvl < 3)
+                    if (Army.TotalArmy() < ArmyLimit * 0.7 && BaseLvl < 3)
                     {
                         ArmyCreation(0, 0, GetMaxNumberOfArmyCreation());
                     }
-                    else if(GetBaseUpdatePrice()[0] == Credits && GetBaseUpdatePrice()[1] == Goods && BaseLvl <= 3)
+                    else if (GetBaseUpdatePrice()[0] == Credits && GetBaseUpdatePrice()[1] == Goods && BaseLvl <= 3)
                     {
                         BaseLvlUp();
                     }
-                    else if(GetMaxNumberOfArmyCreation() >= (Army.TotalArmy() - ArmyLimit) / 2)
+                    else if (GetMaxNumberOfArmyCreation() >= (Army.TotalArmy() - ArmyLimit) / 2)
                     {
                         ArmyCreation(0, GetMaxNumberOfArmyCreation(), 0);
                     }
-                    else if( Army.TotalArmy() == ArmyLimit && GetMaxNumberOfArmyCreation() == ArmyLimit)
+                    else if (Army.TotalArmy() == ArmyLimit && GetMaxNumberOfArmyCreation() == ArmyLimit)
                     {
                         Army army = new Army(Army.SpeedUnits, Army.AttackUnits, Army.DefenceUnits);
                         BattleLogic logic = new BattleLogic(this, army, Enemies, GameStepDuration, false, window);

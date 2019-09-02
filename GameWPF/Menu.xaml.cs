@@ -26,10 +26,6 @@ namespace GameWPF
         public Menu()
         {
             InitializeComponent();
-            GetResults();
-            List<GameResults> currentResult = gameResults;
-            currentResult.Reverse();
-            resultsGrid.ItemsSource = currentResult;
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -84,6 +80,14 @@ namespace GameWPF
             {
                 Console.WriteLine(ex.Message);
             }
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            GetResults();
+            List<GameResults> currentResult = gameResults;
+            currentResult.Reverse();
+            resultsGrid.ItemsSource = currentResult;
         }
     }
 }

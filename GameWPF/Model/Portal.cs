@@ -8,8 +8,7 @@ namespace GameWPF
 {
     public class Portal : Building
     {
-        //public int Lvl { get; set; }
-        public double BuyGood{ get; set; }
+        public double BuyGood { get; set; }
         public double SellGood { get; set; }
         public Portal()
         {
