@@ -161,45 +161,12 @@ namespace GameWPF
 
             double[] prices = { credits, goods };
 
-            if (building is Hut && Hut.Lvl > 1)
-            {
+            if(building.Lvl > 1){
                 credits = PriceOfUpdate(Hut.Lvl, creditsNeeded);
                 goods = PriceOfUpdate(Hut.Lvl, goodsNeeded);
-
                 prices = new double[] { credits, goods };
             }
-            if (building is Portal && Portal.Lvl > 1)
-            {
-
-                credits = PriceOfUpdate(Portal.Lvl, creditsNeeded);
-                goods = PriceOfUpdate(Portal.Lvl, goodsNeeded);
-
-                prices = new double[] { credits, goods };
-            }
-            if (building is Residence && Residence.Lvl > 1)
-            {
-
-                credits = PriceOfUpdate(Residence.Lvl, creditsNeeded);
-                goods = PriceOfUpdate(Residence.Lvl, goodsNeeded);
-
-                prices = new double[] { credits, goods };
-            }
-            if (building is Wall && Wall.Lvl > 1)
-            {
-
-                credits = PriceOfUpdate(Wall.Lvl, creditsNeeded);
-                goods = PriceOfUpdate(Wall.Lvl, goodsNeeded);
-
-                prices = new double[] { credits, goods };
-            }
-            if (building is Workshop && Workshop.Lvl > 1)
-            {
-
-                credits = PriceOfUpdate(Workshop.Lvl, creditsNeeded);
-                goods = PriceOfUpdate(Workshop.Lvl, goodsNeeded);
-
-                prices = new double[] { credits, goods };
-            }
+            
             return prices;
         }
         public void BuildingLvlUp(Building building)

@@ -24,7 +24,6 @@ namespace GameWPF.Model
         {
             Id = id;
         }
-
         public Enemy(int id, int[] position)
         {
             Id = id;

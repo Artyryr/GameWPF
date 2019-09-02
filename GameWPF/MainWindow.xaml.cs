@@ -38,7 +38,7 @@ namespace GameWPF
         private Random random = new Random(DateTime.Now.Millisecond);
         public List<GameResults> gameResults = new List<GameResults>();
         public bool destroyed = false;
-        public bool enemiesLeft = true;
+        public bool enemiesLeft = false;
 
         public Base Base = new Base();
 
@@ -93,7 +93,6 @@ namespace GameWPF
         {
             if (gameOver == false)
             {
-                
                 enemiesLeft = false;
                 SetPopulation();
                 SetGoods();
@@ -113,10 +112,8 @@ namespace GameWPF
                         }
                     }
                 }
-
                 CommandManager.InvalidateRequerySuggested();
             }
-
         }
         private void InitializeMap()
         {
@@ -254,7 +251,6 @@ namespace GameWPF
 
             grid.Children.Add(btn);
         }
-
         public void SetEnemyImage(int row, int col, string URL, int id)
         {
             Button btn = new Button();
@@ -276,7 +272,6 @@ namespace GameWPF
 
             grid.Children.Add(btn);
         }
-
         private void EnemiesCastleButton_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -413,7 +408,7 @@ namespace GameWPF
                 gameOver = true;
 
                 Menu menu = new Menu();
-                SetImage(Base.Position[0], Base.Position[1],"Image/grass.png");
+                SetImage(Base.Position[0], Base.Position[1], "Image/grass.png");
 
                 MessageBoxResult result = MessageBox.Show("Поражение!. \nВаша база была уничтожена. ",
                                            "Confirmation",
@@ -443,7 +438,6 @@ namespace GameWPF
         {
             return gameStepDuration;
         }
-
         private void Window_Closed(object sender, EventArgs e)
         {
             stopwatch.Stop();
@@ -477,6 +471,5 @@ namespace GameWPF
                 writer.Write(serializer.Serialize(gameResults));
             }
         }
-
     }
 }

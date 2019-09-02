@@ -53,22 +53,24 @@ namespace GameWPF
                 defenceUnits = Convert.ToInt32(DefenceUnitsTxt.Text);
                 speedUnits = Convert.ToInt32(SpeedUnitsTxt.Text);
 
-                if (attackUnits > 0 || defenceUnits > 0 || speedUnits > 0 && attackUnits <= MainWindow.Base.Army.AttackUnits
+                if (attackUnits > 0 || defenceUnits > 0 || speedUnits > 0)
+                {
+                    if (attackUnits <= MainWindow.Base.Army.AttackUnits
                     && defenceUnits <= MainWindow.Base.Army.DefenceUnits && speedUnits <= MainWindow.Base.Army.SpeedUnits)
-                {
-                    Army army = new Army(speedUnits, attackUnits, defenceUnits);
-                    BattleLogic logic = new BattleLogic(MainWindow.Base,Enemy, army, MainWindow.enemies, MainWindow.GetGameStepDuration(), true, MainWindow, this);
-                    logic.WarProcess();
+                    {
+                        Army army = new Army(speedUnits, attackUnits, defenceUnits);
+                        BattleLogic logic = new BattleLogic(MainWindow.Base, Enemy, army, MainWindow.enemies, MainWindow.GetGameStepDuration(), true, MainWindow, this);
+                        logic.WarProcess();
+                    }
+                    else
+                    {
+                        MessageBoxResult result = MessageBox.Show("Вы не можете отправить больше юнитове, чем есть в вашей армии.",
+                                               "Confirmation",
+                                               MessageBoxButton.OK,
+                                               MessageBoxImage.Exclamation);
+                    }
+                    }
                 }
-                else
-                {
-                    MessageBoxResult result = MessageBox.Show("Количество юнитов не может быть меньше 0. \n" +
-                        "Вы не можете отправить больше юнитове, чем есть в вашей армии.",
-                                           "Confirmation",
-                                           MessageBoxButton.OK,
-                                           MessageBoxImage.Exclamation);
-                }
-            }
             catch (Exception ex)
             {
                 MessageBoxResult result = MessageBox.Show("Количество юнитов не может быть меньше 0. \n",

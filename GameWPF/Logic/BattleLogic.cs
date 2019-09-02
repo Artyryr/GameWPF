@@ -197,7 +197,7 @@ namespace GameWPF.Logic
                             }
                             else if (OwnBase.Active == true)
                             {
-                                Window.SetEnemyImage(OwnBase.Position[0], OwnBase.Position[1], "Image/ownCastle.png", OwnBase.Id);
+                                Window.SetEnemyImage(OwnBase.Position[0], OwnBase.Position[1], "Image/enemiesCastle.png", OwnBase.Id);
                             }
                             else
                             {
@@ -281,13 +281,11 @@ namespace GameWPF.Logic
             {
                 movementDown = true;
             }
-
             int i = 0;
             int j = 0;
             int jMax = Math.Abs(firstPoint[1] - secondPoint[1]);
             int iMax = Math.Abs(firstPoint[0] - secondPoint[0]);
             int max = Math.Max(iMax, jMax);
-
 
             for (int move = 0; move < max; move++)
             {
@@ -299,7 +297,14 @@ namespace GameWPF.Logic
                     }
                     else
                     {
-                        Window.SetEnemyImage(firstPoint[0], firstPoint[1], "Image/" + castleImg, Enemy.Id);
+                        Window.SetEnemyImage(firstPoint[0], firstPoint[1], "Image/" + castleImg, OwnBase.Id);
+                        if (Enemy.Equals(Window.Base))
+                        {
+                            SetImage(secondPoint[0], secondPoint[1], "Image/ownCastle.png", Window);
+                        }
+                        else {
+                            Window.SetEnemyImage(secondPoint[0], secondPoint[1], "Image/" + castleImg, Enemy.Id);
+                        }
                     }
                 }
                 if (movementDown == false)
@@ -319,10 +324,9 @@ namespace GameWPF.Logic
                                 }
                                 else
                                 {
-                                    Window.SetEnemyImage(firstPoint[0], firstPoint[1], "Image/" + castleImg, Enemy.Id);
+                                    Window.SetEnemyImage(firstPoint[0], firstPoint[1], "Image/" + castleImg, OwnBase.Id);
                                 }
                             }
-
                             await Task.Delay(stepDuration);
                             i++;
                         }
@@ -339,12 +343,10 @@ namespace GameWPF.Logic
                                 }
                                 else
                                 {
-                                    Window.SetEnemyImage(firstPoint[0], firstPoint[1], "Image/" + castleImg, Enemy.Id);
+                                    Window.SetEnemyImage(firstPoint[0], firstPoint[1], "Image/" + castleImg, OwnBase.Id);
                                 }
                             }
-
                             await Task.Delay(stepDuration);
-
                             j++;
                         }
                     }
@@ -363,10 +365,9 @@ namespace GameWPF.Logic
                                 }
                                 else
                                 {
-                                    Window.SetEnemyImage(firstPoint[0], firstPoint[1], "Image/" + castleImg, Enemy.Id);
+                                    Window.SetEnemyImage(firstPoint[0], firstPoint[1], "Image/" + castleImg, OwnBase.Id);
                                 }
                             }
-
                             await Task.Delay(stepDuration);
                             i++;
                         }
@@ -383,10 +384,9 @@ namespace GameWPF.Logic
                                 }
                                 else
                                 {
-                                    Window.SetEnemyImage(firstPoint[0], firstPoint[1], "Image/" + castleImg, Enemy.Id);
+                                    Window.SetEnemyImage(firstPoint[0], firstPoint[1], "Image/" + castleImg, OwnBase.Id);
                                 }
                             }
-
                             await Task.Delay(stepDuration);
                             j++;
                         }
@@ -409,10 +409,9 @@ namespace GameWPF.Logic
                                 }
                                 else
                                 {
-                                    Window.SetEnemyImage(firstPoint[0], firstPoint[1], "Image/" + castleImg, Enemy.Id);
+                                    Window.SetEnemyImage(firstPoint[0], firstPoint[1], "Image/" + castleImg, OwnBase.Id);
                                 }
                             }
-
                             await Task.Delay(stepDuration);
                             i++;
                         }
@@ -429,12 +428,10 @@ namespace GameWPF.Logic
                                 }
                                 else
                                 {
-                                    Window.SetEnemyImage(firstPoint[0], firstPoint[1], "Image/" + castleImg, Enemy.Id);
+                                    Window.SetEnemyImage(firstPoint[0], firstPoint[1], "Image/" + castleImg, OwnBase.Id);
                                 }
                             }
-
                             await Task.Delay(stepDuration);
-
                             j++;
                         }
                     }
@@ -453,7 +450,7 @@ namespace GameWPF.Logic
                                 }
                                 else
                                 {
-                                    Window.SetEnemyImage(firstPoint[0], firstPoint[1], "Image/" + castleImg, Enemy.Id);
+                                    Window.SetEnemyImage(firstPoint[0], firstPoint[1], "Image/" + castleImg, OwnBase.Id);
                                 }
                             }
                             await Task.Delay(stepDuration);
@@ -472,11 +469,10 @@ namespace GameWPF.Logic
                                 }
                                 else
                                 {
-                                    Window.SetEnemyImage(firstPoint[0], firstPoint[1], "Image/" + castleImg, Enemy.Id);
+                                    Window.SetEnemyImage(firstPoint[0], firstPoint[1], "Image/" + castleImg, OwnBase.Id);
                                 }
                             }
                             await Task.Delay(stepDuration);
-
                             j++;
                         }
                     }
@@ -496,11 +492,7 @@ namespace GameWPF.Logic
                         SetImage(secondPoint[0], secondPoint[1], "Image/grass.png", window);
                     }
                 }
-                
-                //        SetImage(firstPoint[0], firstPoint[1], "Image/" + castleImg, window);
-
             }
-
         }
         private double GetSurvived(Army army, Base enemy)
         {

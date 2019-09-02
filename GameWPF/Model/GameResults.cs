@@ -33,5 +33,4 @@ namespace GameWPF.Model
         InProgress = 3,
         Draw = 4
     }
-
 }
