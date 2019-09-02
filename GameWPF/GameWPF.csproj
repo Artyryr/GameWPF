@@ -71,6 +71,7 @@
     <Compile Include="AttackWindow.xaml.cs">
       <DependentUpon>AttackWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Logic\BattleLogic.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -84,7 +85,6 @@
     <Compile Include="Menu.xaml.cs">
       <DependentUpon>Menu.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Model\Aggressor.cs" />
     <Compile Include="Model\Army.cs" />
     <Compile Include="Model\AttackUnit.cs" />
     <Compile Include="Model\Base.cs" />
@@ -97,7 +97,6 @@
     <Compile Include="Model\Portal.cs" />
     <Compile Include="Model\Residence.cs" />
     <Compile Include="Model\SpeedUnit.cs" />
-    <Compile Include="Model\Trader.cs" />
     <Compile Include="Model\Unit.cs" />
     <Compile Include="Model\Wall.cs" />
     <Compile Include="Model\Workshop.cs" />
@@ -134,7 +133,7 @@
     <Resource Include="Image\land.png" />
     <Resource Include="Image\ownCastle.png" />
     <Resource Include="Image\ownKnight.png" />
-    <Resource Include="Image\ownKnight2.png" />
+    <Resource Include="Image\enemiesKnight.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

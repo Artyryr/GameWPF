@@ -8,7 +8,7 @@ namespace GameWPF
 {
     public class Hut : Building
     {
-        public int Lvl { get; set; }
+        //public int Lvl { get; set; }
         public Hut()
         {
             Lvl = 1;

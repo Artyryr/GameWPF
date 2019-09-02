@@ -8,7 +8,7 @@ namespace GameWPF
 {
     public class Residence : Building
     {
-        public int Lvl { get; set; }
+        //public int Lvl { get; set; }
         public Residence()
         {
             Lvl = 1;

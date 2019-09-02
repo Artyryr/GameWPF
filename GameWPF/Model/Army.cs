@@ -25,13 +25,22 @@ namespace GameWPF
             Defence = new DefenceUnit();
             Speed = new SpeedUnit();
         }
+        public Army(int speed, int attack, int defence)
+        {
+            SpeedUnits = speed;
+            AttackUnits = attack;
+            DefenceUnits = defence;
+            Attack = new AttackUnit();
+            Defence = new DefenceUnit();
+            Speed = new SpeedUnit();
+        }
 
-        public double getPower()
+        public double GetPower()
         {
             double power = AttackUnits * Attack.Attack + SpeedUnits * Speed.Attack + DefenceUnits * Defence.Attack;
             return power;
         }
-        public int totalArmy()
+        public int TotalArmy()
         {
             return SpeedUnits + AttackUnits + DefenceUnits;
         }

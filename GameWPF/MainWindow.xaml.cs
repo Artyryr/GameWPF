@@ -30,12 +30,14 @@ namespace GameWPF
         public Grid grid = new Grid();
         private TimeSpan gameStepDuration = new TimeSpan(0, 0, 4);
         private int numberOfEnemies;
-        public List<Enemy> enemies = new List<Enemy>();
+        public List<Base> enemies = new List<Base>();
         private bool gameOver = false;
         private bool winnedGame = false;
         private Stopwatch stopwatch = new Stopwatch();
         private string PlayerName;
         public List<GameResults> gameResults = new List<GameResults>();
+        public bool destroyed = false;
+        public bool enemiesLeft = true;
 
         static readonly object _object = new object();
 
@@ -53,7 +55,7 @@ namespace GameWPF
 
             InitializeComponent();
         }
-        public MainWindow(int gameStep, int enemiesNumber,string playerName)
+        public MainWindow(int gameStep, int enemiesNumber, string playerName)
         {
             gameStepDuration = new TimeSpan(0, 0, gameStep);
             numberOfEnemies = enemiesNumber;
@@ -75,6 +77,11 @@ namespace GameWPF
             SetUpTimer();
             grid = mapGrid;
             InitializeMap();
+            foreach (Base enemy in enemies.ToList())
+            {
+                enemy.SetEnemies(enemies, Base);
+            }
+
             stopwatch.Start();
         }
         private void SetUpTimer()
@@ -93,10 +100,22 @@ namespace GameWPF
                 SetCredits();
                 SetData();
                 CheckWinningCombination();
+                foreach (Base enemy in enemies.ToList())
+                {
+                    if (enemy != null)
+                    {
+                        enemy.SetEnemies(enemies, Base);
+                        if (enemy is Enemy)
+                        {
+                            Enemy enemyBase = (Enemy)enemy;
+                            enemyBase.LifeCycle(gameStepDuration, this);
+                        }
+                    }
+                }
 
                 CommandManager.InvalidateRequerySuggested();
             }
-            
+
         }
         private void InitializeMap()
         {
@@ -105,52 +124,55 @@ namespace GameWPF
             if (numberOfEnemies == 3)
             {
                 SetImage(2, 2, "Image/ownCastle.png");
-                SetEnemyImage(2, 12, "Image/enemiesCastle.png", 0);
-                SetEnemyImage(12, 2, "Image/enemiesCastle.png", 1);
-                SetEnemyImage(12, 12, "Image/enemiesCastle.png", 2);
+                SetEnemyImage(2, 12, "Image/enemiesCastle.png", 1);
+                SetEnemyImage(12, 2, "Image/enemiesCastle.png", 2);
+                SetEnemyImage(12, 12, "Image/enemiesCastle.png", 3);
 
                 Base.Position = new int[] { 2, 2 };
 
                 List<int[]> positions = new List<int[]>() { new int[] { 2, 12 }, new int[] { 12, 2 }, new int[] { 12, 12 } };
 
-                for (int id = 0; id < 3; id++)
-                {
-                    enemies.Add(new Enemy(id, positions[id]));
-                }
+                //for (int id = 1; id <= 3; id++)
+                //{
+                //    enemies.Add(new Enemy(id, positions[id - 1], 1));
+                //}
+
+                enemies.Add(new Enemy(1, positions[0], 2));
+                //enemies.Add(new Enemy(2, positions[0], 2));
             }
             else if (numberOfEnemies == 4)
             {
                 SetImage(7, 7, "Image/ownCastle.png");
-                SetEnemyImage(2, 2, "Image/enemiesCastle.png", 0);
-                SetEnemyImage(2, 12, "Image/enemiesCastle.png", 1);
-                SetEnemyImage(12, 2, "Image/enemiesCastle.png", 2);
-                SetEnemyImage(12, 12, "Image/enemiesCastle.png", 3);
-
-                Base.Position = new int[] { 7, 7 };
-
-                List<int[]> positions = new List<int[]>() { new int[] { 2, 2 }, new int[] { 2, 12 }, new int[] { 12, 2 }, new int[] { 12, 12 } };
-
-                for (int id = 0; id < 4; id++)
-                {
-                    enemies.Add(new Enemy(id, positions[id]));
-                }
-            }
-            else if (numberOfEnemies == 5)
-            {
-                SetImage(7, 4, "Image/ownCastle.png");
-                SetEnemyImage(7, 10, "Image/enemiesCastle.png", 0);
                 SetEnemyImage(2, 2, "Image/enemiesCastle.png", 1);
                 SetEnemyImage(2, 12, "Image/enemiesCastle.png", 2);
                 SetEnemyImage(12, 2, "Image/enemiesCastle.png", 3);
                 SetEnemyImage(12, 12, "Image/enemiesCastle.png", 4);
 
+                Base.Position = new int[] { 7, 7 };
+
+                List<int[]> positions = new List<int[]>() { new int[] { 2, 2 }, new int[] { 2, 12 }, new int[] { 12, 2 }, new int[] { 12, 12 } };
+
+                for (int id = 1; id <= 4; id++)
+                {
+                    enemies.Add(new Enemy(id, positions[id - 1]));
+                }
+            }
+            else if (numberOfEnemies == 5)
+            {
+                SetImage(7, 4, "Image/ownCastle.png");
+                SetEnemyImage(7, 10, "Image/enemiesCastle.png", 1);
+                SetEnemyImage(2, 2, "Image/enemiesCastle.png", 2);
+                SetEnemyImage(2, 12, "Image/enemiesCastle.png", 3);
+                SetEnemyImage(12, 2, "Image/enemiesCastle.png", 4);
+                SetEnemyImage(12, 12, "Image/enemiesCastle.png", 5);
+
                 Base.Position = new int[] { 7, 4 };
 
                 List<int[]> positions = new List<int[]>() { new int[] { 7, 10 }, new int[] { 2, 2 }, new int[] { 2, 12 }, new int[] { 12, 2 }, new int[] { 12, 12 } };
 
-                for (int id = 0; id < 5; id++)
+                for (int id = 1; id <= 5; id++)
                 {
-                    enemies.Add(new Enemy(id, positions[id]));
+                    enemies.Add(new Enemy(id, positions[id - 1]));
                 }
             }
 
@@ -262,10 +284,13 @@ namespace GameWPF
         {
             Button btn = sender as Button;
             int enemyId = Convert.ToInt32(btn.Name.ElementAt(11).ToString());
-            Enemy enemy = enemies[enemyId];
+            Base enemy = enemies[enemyId - 1];
 
-            AttackWindow attackWindow = new AttackWindow(enemy, this);
-            attackWindow.ShowDialog();
+            if (enemy != null)
+            {
+                AttackWindow attackWindow = new AttackWindow((Enemy)enemy, this);
+                attackWindow.ShowDialog();
+            }
         }
 
         private async void BaseLvlButton_Click(object sender, RoutedEventArgs e)
@@ -281,7 +306,7 @@ namespace GameWPF
         {
             Button btn = (Button)sender;
             btn.IsEnabled = false;
-            await Task.Delay(gameStepDuration); 
+            await Task.Delay(gameStepDuration);
             btn.IsEnabled = true;
 
             Base.BuildingLvlUp(Base.Hut);
@@ -371,19 +396,33 @@ namespace GameWPF
         }
         private void CheckWinningCombination()
         {
-            bool win = true;
-            foreach (var item in enemies)
+            foreach (var item in enemies.ToList())
             {
-                if(item != null)
+                if (item != null)
                 {
-                    win = false;
+                    enemiesLeft = true;
                 }
             }
-            if (win)
+
+            if (destroyed == true)
+            {
+                gameOver = true;
+
+                Menu menu = new Menu();
+
+                MessageBoxResult result = MessageBox.Show("Поражение!. \nВаша база была уничтожена. ",
+                                           "Confirmation",
+                                           MessageBoxButton.OK,
+                                           MessageBoxImage.Exclamation);
+
+                menu.Activate();
+                menu.Show();
+                this.Close();
+            }
+            if (enemiesLeft == false && destroyed == false)
             {
                 winnedGame = true;
                 gameOver = true;
-                this.Close();
                 Menu menu = new Menu();
 
                 MessageBoxResult result = MessageBox.Show("Игра пройдена! \nВы победили. ",
@@ -392,6 +431,7 @@ namespace GameWPF
                                            MessageBoxImage.Exclamation);
                 menu.Activate();
                 menu.Show();
+                this.Close();
             }
         }
         public TimeSpan GetGameStepDuration()
@@ -402,21 +442,27 @@ namespace GameWPF
         private void Window_Closed(object sender, EventArgs e)
         {
             stopwatch.Stop();
-            double executionDuration = Math.Round(stopwatch.Elapsed.TotalMinutes,2);
-            if (winnedGame == true)
+            double executionDuration = Math.Round(stopwatch.Elapsed.TotalMinutes, 2);
+
+            if (destroyed == true)
+            {
+                GameResults result = new GameResults(PlayerName, GameResult.Lose, numberOfEnemies, executionDuration);
+                gameResults.Add(result);
+            }
+            else if (winnedGame == true)
             {
                 GameResults result = new GameResults(PlayerName, GameResult.Win, numberOfEnemies, executionDuration);
                 gameResults.Add(result);
             }
-            else if(winnedGame == false)
+            else if (winnedGame == false)
             {
                 GameResults result = new GameResults(PlayerName, GameResult.InProgress, numberOfEnemies, executionDuration);
                 gameResults.Add(result);
             }
+
             WriteGameResults();
 
             this.Close();
-            //System.Windows.Application.Current.Shutdown();
         }
         private void WriteGameResults()
         {

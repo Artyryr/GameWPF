@@ -9,6 +9,7 @@ namespace GameWPF
 {
     public class Base
     {
+        public int Id { get; set; }
         public int BaseLvl { get; set; }
         public int Goods { get; set; }
         public int Population { get; set; }
@@ -23,6 +24,8 @@ namespace GameWPF
         public Army Army { get; set; }
         public double Defence { get; set; }
         public int[] Position { get; set; }
+        public List<Base> Enemies { get; set; }
+        public bool Active { get; set; }
 
         double creditsNeededBase = 1000;
         int populationNeededBase = 500;
@@ -32,8 +35,11 @@ namespace GameWPF
         int goodsNeeded = 102;
         int castleDefence = 100;
 
+        public static int id = 0;
+
         public Base()
         {
+            Id = id;
             BaseLvl = 1;
             Goods = 300;
             Population = 200;
@@ -47,6 +53,9 @@ namespace GameWPF
             Wall = new Wall();
             Defence = castleDefence;
             Army = new Army();
+            Active = true;
+
+            id++;
         }
         public void CreditsStep()
         {
@@ -197,20 +206,21 @@ namespace GameWPF
         {
             double credits = 102;
             double goods = 102;
+
             if (building.Lvl > 1)
             {
-                credits = Math.Round(Convert.ToDouble(creditsNeeded + building.Lvl / 0.985), 0);
-                goods = Convert.ToInt32(goodsNeeded + building.Lvl / 0.985);
+                credits = Math.Round(Convert.ToDouble(PriceOfUpdate(building.Lvl,credits)), 0);
+                goods = Convert.ToInt32(PriceOfUpdate(building.Lvl, goods));
             }
 
             if (Credits >= credits && Goods >= goods)
             {
-                Credits -= creditsNeeded;
-                Goods -= goodsNeeded;
+                Credits -= (int)Math.Ceiling(credits);
+                Goods -= (int)Math.Ceiling(goods);
 
                 if (building is Hut)
                 {
-                    Hut.Lvl += 1;
+                    this.Hut.Lvl += 1;
                     ArmyLimit += 100;
 
                     Army.Attack.Attack += 0.1;
@@ -222,23 +232,23 @@ namespace GameWPF
                 }
                 if (building is Residence)
                 {
-                    Residence.Lvl += 1;
+                    this.Residence.Lvl += 1;
                     PopulationLimit += 200;
                 }
                 if (building is Portal)
                 {
-                    Portal.Lvl += 1;
+                    this.Portal.Lvl += 1;
                     double difference = (Portal.BuyGood - Portal.SellGood) / 200;
                     Portal.BuyGood -= difference;
                     Portal.SellGood += difference;
                 }
                 if (building is Wall)
                 {
-                    Wall.Lvl += 1;
+                    this.Wall.Lvl += 1;
                 }
                 if (building is Workshop)
                 {
-                    Workshop.Lvl += 1;
+                    this.Workshop.Lvl += 1;
                 }
             }
         }
@@ -266,7 +276,7 @@ namespace GameWPF
 
             if(Credits - totalPrice >= 0 && Goods - totalGoods >= 0 && Population - totalPeople >= 0)
             {
-                if (Army.totalArmy() + totalPeople <= ArmyLimit)
+                if (Army.TotalArmy() + totalPeople <= ArmyLimit)
                 {
                     Credits -= totalPrice;
                     Goods -= totalGoods;
@@ -295,6 +305,15 @@ namespace GameWPF
         {
             double result = Math.Round(Convert.ToDouble(100 * (lvl - 1) + initialValue + lvl / 0.985), 0); 
             return result;
+        }
+        public void LifeCycle(TimeSpan time, Window win)
+        {
+
+        }
+        public void SetEnemies(List<Base> enemies, Base playerBase)
+        {
+            Enemies = new List<Base>(enemies);
+            Enemies[Id - 1] = playerBase;
         }
     }
 }
