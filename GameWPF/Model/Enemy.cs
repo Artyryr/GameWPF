@@ -133,7 +133,7 @@ namespace GameWPF.Model
                         attackCycle++;
                         BaseLvlUp();
                     }
-                    else if (building.Lvl == 2 && Army.TotalArmy() < ArmyLimit / 2)
+                    else if (building.Lvl == 2 && Army.TotalArmy() < ArmyLimit / 2 && attackCycle % 2 == 0)
                     {
                         attackCycle++;
                         ArmyCreation(0, 0, GetMaxNumberOfArmyCreation());
@@ -159,29 +159,35 @@ namespace GameWPF.Model
                 }
                 else if (Behavior == BehaviorType.Traider)
                 {
-                    if (GetUpdatePrice(Workshop)[0] <= Credits / 2 && GetUpdatePrice(Workshop)[1] <= Goods / 2 && Workshop.Lvl < 4)
+                    if (GetUpdatePrice(Workshop)[0] <= Credits && GetUpdatePrice(Workshop)[1] <= Goods && Workshop.Lvl < 4)
                     {
+                        attackCycle++;
                         BuildingLvlUp(Workshop);
                     }
-                    if (GetUpdatePrice(Portal)[0] <= Credits / 2 && GetUpdatePrice(Portal)[1] <= Goods / 2 && Portal.Lvl < 4)
+                    if (GetUpdatePrice(Portal)[0] <= Credits && GetUpdatePrice(Portal)[1] <= Goods && Portal.Lvl < 4)
                     {
+                        attackCycle++;
                         BuildingLvlUp(Portal);
                     }
 
-                    if (Army.TotalArmy() < ArmyLimit * 0.7 && BaseLvl < 3)
+                    if (Army.TotalArmy() < ArmyLimit * 0.7 && BaseLvl < 3 && attackCycle % 3 == 0)
                     {
+                        attackCycle++;
                         ArmyCreation(0, 0, GetMaxNumberOfArmyCreation());
                     }
                     else if (GetBaseUpdatePrice()[0] == Credits && GetBaseUpdatePrice()[1] == Goods && BaseLvl <= 3)
                     {
+                        attackCycle++;
                         BaseLvlUp();
                     }
-                    else if (GetMaxNumberOfArmyCreation() >= (Army.TotalArmy() - ArmyLimit) / 2)
+                    else if (GetMaxNumberOfArmyCreation() >= (Army.TotalArmy() - ArmyLimit) / 2 && BaseLvl == 3)
                     {
+                        attackCycle++;
                         ArmyCreation(0, GetMaxNumberOfArmyCreation(), 0);
                     }
-                    else if (Army.TotalArmy() == ArmyLimit && GetMaxNumberOfArmyCreation() == ArmyLimit)
+                    else if (Army.TotalArmy() == ArmyLimit && GetMaxNumberOfArmyCreation() == ArmyLimit && BaseLvl == 3)
                     {
+                        attackCycle++;
                         Army army = new Army(Army.SpeedUnits, Army.AttackUnits, Army.DefenceUnits);
                         BattleLogic logic = new BattleLogic(this, army, Enemies, GameStepDuration, false, window);
 

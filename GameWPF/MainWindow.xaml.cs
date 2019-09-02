@@ -79,7 +79,6 @@ namespace GameWPF
             {
                 enemy.SetEnemies(enemies, Base);
             }
-
             stopwatch.Start();
         }
         private void SetUpTimer()

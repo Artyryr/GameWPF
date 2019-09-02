@@ -162,8 +162,8 @@ namespace GameWPF
             double[] prices = { credits, goods };
 
             if(building.Lvl > 1){
-                credits = PriceOfUpdate(Hut.Lvl, creditsNeeded);
-                goods = PriceOfUpdate(Hut.Lvl, goodsNeeded);
+                credits = PriceOfUpdate(building.Lvl, creditsNeeded);
+                goods = PriceOfUpdate(building.Lvl, goodsNeeded);
                 prices = new double[] { credits, goods };
             }
             
@@ -212,6 +212,7 @@ namespace GameWPF
                 if (building is Wall)
                 {
                     this.Wall.Lvl += 1;
+                    DefencePower();
                 }
                 if (building is Workshop)
                 {
@@ -251,6 +252,8 @@ namespace GameWPF
                     Army.AttackUnits += attack;
                     Army.DefenceUnits += defence;
                     Army.SpeedUnits += speed;
+
+                    DefencePower();
                 }
                 else
                 {
