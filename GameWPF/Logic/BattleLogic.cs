@@ -132,7 +132,7 @@ namespace GameWPF.Logic
             int attackedEnemy = random.Next(0, Enemies.Count());
             Enemy = Enemies[attackedEnemy];
 
-            if (Enemy != null)
+            if (Enemy.Active != false)
             {
                 WarProcess();
             }
@@ -186,10 +186,11 @@ namespace GameWPF.Logic
                         }
                         else
                         {
-                            if (Window.enemies[Enemy.Id - 1] != null)
+                            if (Window.enemies[Enemy.Id - 1].Active != false)
                             {
+                                SetImage(Enemy.Position[0], Enemy.Position[1], "Image/grass.png", Window);
                                 Window.enemies[Enemy.Id - 1].Active = false;
-                                Window.enemies[Enemy.Id - 1] = null;
+                                //Window.enemies[Enemy.Id - 1] = null;
                             }
                         }
 
@@ -278,6 +279,7 @@ namespace GameWPF.Logic
                             {
                                 SetImage(Enemy.Position[0], Enemy.Position[1], "Image/grass.png", Window);
                             }
+
                             if (OwnBase.Active == true)
                             {
                                 Window.SetEnemyImage(OwnBase.Position[0], OwnBase.Position[1], "Image/enemiesCastle.png", OwnBase.Id);
@@ -294,18 +296,11 @@ namespace GameWPF.Logic
                                                "Confirmation",
                                                MessageBoxButton.OK,
                                                MessageBoxImage.Exclamation);
-                        }
-
-                        if (OwnBase.Equals(Window.Base))
-                        {
+                       
                             AttackWindow.Close();
                         }
                     }
                 }
-            }
-            else
-            {
-                SetImage(OwnBase.Position[0], OwnBase.Position[1], "Image/grass.png", Window);
             }
         }
         private void CalculateDistance(int[] ownPosition, int[] enemyPosition)
@@ -383,7 +378,14 @@ namespace GameWPF.Logic
             {
                 if (backMovement == false)
                 {
-                    SetImage(firstPoint[0], firstPoint[1], "Image/" + castleImg, window);
+                    if (IsUserPlaying == true)
+                    {
+                        SetImage(firstPoint[0], firstPoint[1], "Image/" + castleImg, window);
+                    }
+                    else
+                    {
+                        Window.SetEnemyImage(firstPoint[0], firstPoint[1], "Image/" + castleImg, Enemy.Id);
+                    }
                 }
                 if (movementDown == false)
                 {
@@ -391,15 +393,7 @@ namespace GameWPF.Logic
                     {
                         if (i < iMax)
                         {
-                            if (IsUserPlaying == true)
-                            {
-                                SetImage(firstPoint[0] - i - 1, firstPoint[1] - j, "Image/" + knightImg, window);
-                            }
-                            else
-                            {
-                                Window.SetEnemyImage(firstPoint[0] - i - 1, firstPoint[1] - j, "Image/" + knightImg, Enemy.Id);
-                            }
-                                
+                                SetImage(firstPoint[0] - i - 1, firstPoint[1] - j, "Image/" + knightImg, window);                 
                             SetImage(firstPoint[0] - i, firstPoint[1] - j, "Image/grass.png", window);
 
                             if (backMovement == false)
@@ -419,15 +413,7 @@ namespace GameWPF.Logic
                         }
                         if (j < jMax)
                         {
-                            if (IsUserPlaying == true)
-                            {
                                 SetImage(firstPoint[0] - i , firstPoint[1] - j -1, "Image/" + knightImg, window);
-                            }
-                            else
-                            {
-                                Window.SetEnemyImage(firstPoint[0] - i , firstPoint[1] - j - 1, "Image/" + knightImg, Enemy.Id);
-                            }
-
                             SetImage(firstPoint[0] - i, firstPoint[1] - j, "Image/grass.png", window);
 
                             if (backMovement == false)
@@ -451,15 +437,7 @@ namespace GameWPF.Logic
                     {
                         if (i < iMax)
                         {
-                            if (IsUserPlaying == true)
-                            {
                                 SetImage(firstPoint[0] + i + 1, firstPoint[1] - j, "Image/" + knightImg, window);
-                            }
-                            else
-                            {
-                                Window.SetEnemyImage(firstPoint[0] + i + 1, firstPoint[1] - j, "Image/" + knightImg, Enemy.Id);
-                            }
-
                             SetImage(firstPoint[0] + i, firstPoint[1] - j, "Image/grass.png", window);
 
                             if (backMovement == false)
@@ -479,16 +457,7 @@ namespace GameWPF.Logic
                         }
                         if (j < jMax)
                         {
-                            if (IsUserPlaying == true)
-                            {
                                 SetImage(firstPoint[0] + i , firstPoint[1] - j - 1, "Image/" + knightImg, window);
-                            }
-                            else
-                            {
-                                Window.SetEnemyImage(firstPoint[0] +i , firstPoint[1] - j - 1, "Image/" + knightImg, Enemy.Id);
-                            }
-
-
                             SetImage(firstPoint[0] + i, firstPoint[1] - j, "Image/grass.png", window);
 
                             if (backMovement == false)
@@ -504,7 +473,6 @@ namespace GameWPF.Logic
                             }
 
                             await Task.Delay(stepDuration);
-
                             j++;
                         }
                     }
@@ -515,15 +483,7 @@ namespace GameWPF.Logic
                     {
                         if (i < iMax)
                         {
-                            if (IsUserPlaying == true)
-                            {
                                 SetImage(firstPoint[0] - i - 1, firstPoint[1] + j, "Image/" + knightImg, window);
-                            }
-                            else
-                            {
-                                Window.SetEnemyImage(firstPoint[0] - i - 1, firstPoint[1] + j, "Image/" + knightImg, Enemy.Id);
-                            }
-
                             SetImage(firstPoint[0] - i, firstPoint[1] + j, "Image/grass.png", window);
 
                             if (backMovement == false)
@@ -543,16 +503,7 @@ namespace GameWPF.Logic
                         }
                         if (j < jMax)
                         {
-                            if (IsUserPlaying == true)
-                            {
                                 SetImage(firstPoint[0] - i , firstPoint[1] + j + 1, "Image/" + knightImg, window);
-                            }
-                            else
-                            {
-                                Window.SetEnemyImage(firstPoint[0] - i, firstPoint[1] + j + 1, "Image/" + knightImg, Enemy.Id);
-                            }
-
-
                             SetImage(firstPoint[0] - i, firstPoint[1] + j, "Image/grass.png", window);
 
                             if (backMovement == false)
@@ -576,15 +527,7 @@ namespace GameWPF.Logic
                     {
                         if (i < iMax)
                         {
-                            if (IsUserPlaying == true)
-                            {
                                 SetImage(firstPoint[0] + i + 1, firstPoint[1] + j, "Image/" + knightImg, window);
-                            }
-                            else
-                            {
-                                Window.SetEnemyImage(firstPoint[0] + i + 1, firstPoint[1] + j, "Image/" + knightImg, Enemy.Id);
-                            }
-
                             SetImage(firstPoint[0] + i, firstPoint[1] + j, "Image/grass.png", window);
 
                             if (backMovement == false)
@@ -603,16 +546,7 @@ namespace GameWPF.Logic
                         }
                         if (j < jMax)
                         {
-                            if (IsUserPlaying == true)
-                            {
                                 SetImage(firstPoint[0] + i, firstPoint[1] + j + 1, "Image/" + knightImg, window);
-                            }
-                            else
-                            {
-                                Window.SetEnemyImage(firstPoint[0] + i, firstPoint[1] + j + 1, "Image/" + knightImg, Enemy.Id);
-                            }
-
-
                             SetImage(firstPoint[0] + i, firstPoint[1] + j, "Image/grass.png", window);
 
                             if (backMovement == false)
@@ -632,11 +566,38 @@ namespace GameWPF.Logic
                         }
                     }
                 }
-                //if (backMovement == false)
+                if (backMovement == true)
+                {
+                    if(IsUserPlaying == true)
+                    {
+                        SetImage(secondPoint[0], secondPoint[1], "Image/" + castleImg, window);
+                    }
+                    else if (OwnBase.Active == true)
+                    {
+                        Window.SetEnemyImage(secondPoint[0], secondPoint[1], "Image/" + castleImg, OwnBase.Id);
+                    }
+                    else
+                    {
+                        SetImage(secondPoint[0], secondPoint[1], "Image/grass.png", window);
+                    }
+                }
+                //else
                 //{
-                //    SetImage(firstPoint[0], firstPoint[1], "Image/" + castleImg, window);
+                //    if (IsUserPlaying == true)
+                //    {
+                //        SetImage(firstPoint[0], firstPoint[1], "Image/" + castleImg, window);
+                //    }
+                //    else if (OwnBase.Active == true)
+                //    {
+                //        Window.SetEnemyImage(firstPoint[0], firstPoint[1], "Image/" + castleImg, OwnBase.Id);
+                //    }
+                //    else
+                //    {
+                //        SetImage(firstPoint[0], secondPoint[1], "Image/grass.png", window);
+                //    }
                 //}
             }
+            
         }
         private double GetSurvived(Army army, Base enemy)
         {
@@ -653,38 +614,6 @@ namespace GameWPF.Logic
             double power = army.AttackUnits * army.Attack.Attack + army.SpeedUnits * army.Speed.Attack + army.DefenceUnits * army.Defence.Attack;
             return power;
         }
-        //public void ArmyCreation(int speed, int attack, int defence)
-        //{
-        //    int totalPrice = 10 * (speed + attack + defence);
-        //    int totalGoods = 10 * (speed + attack + defence);
-        //    int totalPeople = speed + attack + defence;
-
-        //    if (OwnBase.Credits - totalPrice >= 0 && OwnBase.Goods - totalGoods >= 0 && OwnBase.Population - totalPeople >= 0)
-        //    {
-        //        if (Army.TotalArmy() + totalPeople <= OwnBase.ArmyLimit)
-        //        {
-        //            OwnBase.Credits -= totalPrice;
-        //            OwnBase.Goods -= totalGoods;
-        //            OwnBase.Population -= totalPeople;
-        //            Army.AttackUnits += attack;
-        //            Army.DefenceUnits += defence;
-        //            Army.SpeedUnits += speed;
-        //        }
-        //    }
-        //}
-        //public int GetMaxNumberOfArmyCreation()
-        //{
-        //    int price = (int)Math.Floor(Credits / 10);
-        //    int goods = (int)Math.Floor((double)Goods / 10);
-        //    int population = (int)Math.Floor((double)Population / 10);
-        //    int min = new int[] { price, goods, population }.Min();
-        //    return min;
-        //}
-        //public Building GetBuildingWithMinimalLvl()
-        //{
-        //    List<Building> buildings = new List<Building> { this.Hut, Portal, Residence, Wall, Workshop };
-        //    return buildings.Where(building => building.Lvl == buildings.Min(b => b.Lvl)).FirstOrDefault();
-        //}
         private void SetImage(int row, int col, string image, MainWindow window)
         {
             Button btn = new Button();

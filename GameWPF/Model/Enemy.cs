@@ -18,7 +18,7 @@ namespace GameWPF.Model
         public int numberOfSteps { get; set; }
 
         int attackCycle = 0;
-        Random random = new Random();
+        Random random = new Random(DateTime.Now.Millisecond);
 
         public Enemy(int id)
         {
@@ -29,14 +29,20 @@ namespace GameWPF.Model
         {
             Id = id;
             Position = position;
-            Behavior = (BehaviorType)random.Next(1, 3);
+            lock (random) 
+            {
+                Behavior = (BehaviorType)random.Next(1, 4);
+            }
             Active = true;
         }
         public Enemy(int[] position)
         {
             Position = position;
             Active = true;
-            Behavior = (BehaviorType)random.Next(1, 3);
+            lock (random)
+            {
+                Behavior = (BehaviorType)random.Next(1, 4);
+            }
         }
         public Enemy(int id, int[] position, int behavior)
         {
@@ -133,7 +139,7 @@ namespace GameWPF.Model
                         attackCycle++;
                         ArmyCreation(0, 0, GetMaxNumberOfArmyCreation());
                     }
-                    else if (GetUpdatePrice(building)[0] <= Credits / 2 && GetUpdatePrice(building)[1] <= Goods / 2 && building.Lvl < 3)
+                    else if (GetUpdatePrice(building)[0] <= Credits  && GetUpdatePrice(building)[1] <= Goods && building.Lvl < 3)
                     {
                         attackCycle++;
                         BuildingLvlUp(building);
@@ -163,8 +169,30 @@ namespace GameWPF.Model
                         BuildingLvlUp(Portal);
                     }
 
+                    if(Army.TotalArmy() < ArmyLimit * 0.7 && BaseLvl < 3)
+                    {
+                        ArmyCreation(0, 0, GetMaxNumberOfArmyCreation());
+                    }
+                    else if(GetBaseUpdatePrice()[0] == Credits && GetBaseUpdatePrice()[1] == Goods && BaseLvl <= 3)
+                    {
+                        BaseLvlUp();
+                    }
+                    else if(GetMaxNumberOfArmyCreation() >= (Army.TotalArmy() - ArmyLimit) / 2)
+                    {
+                        ArmyCreation(0, GetMaxNumberOfArmyCreation(), 0);
+                    }
+                    else if( Army.TotalArmy() == ArmyLimit && GetMaxNumberOfArmyCreation() == ArmyLimit)
+                    {
+                        Army army = new Army(Army.SpeedUnits, Army.AttackUnits, Army.DefenceUnits);
+                        BattleLogic logic = new BattleLogic(this, army, Enemies, GameStepDuration, false, window);
 
+                        ArmyCreation(0, GetMaxNumberOfArmyCreation(), 0);
+                    }
                 }
+            }
+            else
+            {
+                SetImage(Position[0], Position[1], "Image/grass.png", window);
             }
         }
         public new void SetEnemies(List<Base> enemies, Base playerBase)

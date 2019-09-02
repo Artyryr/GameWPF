@@ -29,8 +29,6 @@ namespace GameWPF
         public int Distance { get; set; }
         public double SpeedOfMovement { get; set; }
 
-        int numberOfSteps;
-
         int attackUnits;
         int defenceUnits;
         int speedUnits;

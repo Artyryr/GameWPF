@@ -35,12 +35,10 @@ namespace GameWPF
         private bool winnedGame = false;
         private Stopwatch stopwatch = new Stopwatch();
         private string PlayerName;
+        private Random random = new Random(DateTime.Now.Millisecond);
         public List<GameResults> gameResults = new List<GameResults>();
         public bool destroyed = false;
         public bool enemiesLeft = true;
-
-        static readonly object _object = new object();
-
 
         public Base Base = new Base();
 
@@ -95,6 +93,7 @@ namespace GameWPF
         {
             if (gameOver == false)
             {
+                enemiesLeft = false;
                 SetPopulation();
                 SetGoods();
                 SetCredits();
@@ -132,13 +131,10 @@ namespace GameWPF
 
                 List<int[]> positions = new List<int[]>() { new int[] { 2, 12 }, new int[] { 12, 2 }, new int[] { 12, 12 } };
 
-                //for (int id = 1; id <= 3; id++)
-                //{
-                //    enemies.Add(new Enemy(id, positions[id - 1], 1));
-                //}
-
-                enemies.Add(new Enemy(1, positions[0], 2));
-                //enemies.Add(new Enemy(2, positions[0], 2));
+                for (int id = 1; id <= 3; id++)
+                {
+                    enemies.Add(new Enemy(id, positions[id - 1], random.Next(1, 4)));
+                }
             }
             else if (numberOfEnemies == 4)
             {
@@ -154,7 +150,7 @@ namespace GameWPF
 
                 for (int id = 1; id <= 4; id++)
                 {
-                    enemies.Add(new Enemy(id, positions[id - 1]));
+                    enemies.Add(new Enemy(id, positions[id - 1], random.Next(1, 4)));
                 }
             }
             else if (numberOfEnemies == 5)
@@ -172,10 +168,9 @@ namespace GameWPF
 
                 for (int id = 1; id <= 5; id++)
                 {
-                    enemies.Add(new Enemy(id, positions[id - 1]));
+                    enemies.Add(new Enemy(id, positions[id - 1], random.Next(1, 4)));
                 }
             }
-
         }
         private void SetCredits()
         {
@@ -282,14 +277,21 @@ namespace GameWPF
 
         private void EnemiesCastleButton_Click(object sender, RoutedEventArgs e)
         {
-            Button btn = sender as Button;
-            int enemyId = Convert.ToInt32(btn.Name.ElementAt(11).ToString());
-            Base enemy = enemies[enemyId - 1];
-
-            if (enemy != null)
+            try
             {
-                AttackWindow attackWindow = new AttackWindow((Enemy)enemy, this);
-                attackWindow.ShowDialog();
+                Button btn = sender as Button;
+                int enemyId = Convert.ToInt32(btn.Name.ElementAt(11).ToString());
+                Base enemy = enemies[enemyId - 1];
+
+                if (enemy != null && enemy.Active != false)
+                {
+                    AttackWindow attackWindow = new AttackWindow((Enemy)enemy, this);
+                    attackWindow.ShowDialog();
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
             }
         }
 
@@ -398,7 +400,7 @@ namespace GameWPF
         {
             foreach (var item in enemies.ToList())
             {
-                if (item != null)
+                if (item.Active != false)
                 {
                     enemiesLeft = true;
                 }
