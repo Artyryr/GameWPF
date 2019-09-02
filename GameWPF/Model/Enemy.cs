@@ -133,7 +133,7 @@ namespace GameWPF.Model
                         attackCycle++;
                         BaseLvlUp();
                     }
-                    else if (building.Lvl == 2 && Army.TotalArmy() < ArmyLimit / 2 && attackCycle % 2 == 0)
+                    else if (building.Lvl == 2 && Army.TotalArmy() < ArmyLimit / 2)
                     {
                         attackCycle++;
                         ArmyCreation(0, 0, GetMaxNumberOfArmyCreation());
@@ -170,7 +170,7 @@ namespace GameWPF.Model
                         BuildingLvlUp(Portal);
                     }
 
-                    if (Army.TotalArmy() < ArmyLimit * 0.7 && BaseLvl < 3 && attackCycle % 3 == 0)
+                    if (Army.TotalArmy() < ArmyLimit * 0.7 && BaseLvl < 3)
                     {
                         attackCycle++;
                         ArmyCreation(0, 0, GetMaxNumberOfArmyCreation());
@@ -180,12 +180,12 @@ namespace GameWPF.Model
                         attackCycle++;
                         BaseLvlUp();
                     }
-                    else if (GetMaxNumberOfArmyCreation() >= (Army.TotalArmy() - ArmyLimit) / 2 && BaseLvl == 3)
+                    else if (GetMaxNumberOfArmyCreation() >= (Army.TotalArmy() - ArmyLimit) / 2)
                     {
                         attackCycle++;
                         ArmyCreation(0, GetMaxNumberOfArmyCreation(), 0);
                     }
-                    else if (Army.TotalArmy() == ArmyLimit && GetMaxNumberOfArmyCreation() == ArmyLimit && BaseLvl == 3)
+                    else if (Army.TotalArmy() == ArmyLimit && GetMaxNumberOfArmyCreation() == ArmyLimit)
                     {
                         attackCycle++;
                         Army army = new Army(Army.SpeedUnits, Army.AttackUnits, Army.DefenceUnits);
