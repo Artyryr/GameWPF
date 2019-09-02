@@ -197,7 +197,6 @@ namespace GameWPF
         }
         private void SetData()
         {
-
             double[] baseUpdatePrices = Base.GetBaseUpdatePrice();
             BasePriceTxt.Content = baseUpdatePrices[0] + "кр.," + baseUpdatePrices[1] + "лд., " + baseUpdatePrices[2] + "тов.";
             BaseLvlLabel.Content = "Lvl " + this.Base.BaseLvl;
@@ -206,22 +205,21 @@ namespace GameWPF
             HutPriceLbl.Content = updatePrices[0] + "кр., " + updatePrices[1] + "тов.";
             HutLvlLabel.Content = "Lvl " + Base.Hut.Lvl;
 
-            double[] updatePrices2 = Base.GetUpdatePrice(Base.Residence);
-            ResidencePriceLbl.Content = updatePrices2[0] + "кр., " + updatePrices2[1] + "тов.";
+            updatePrices = Base.GetUpdatePrice(Base.Residence);
+            ResidencePriceLbl.Content = updatePrices[0] + "кр., " + updatePrices[1] + "тов.";
             ResidenceLvlLabel.Content = "Lvl " + Base.Residence.Lvl;
 
-            double[] updatePrices3 = Base.GetUpdatePrice(Base.Wall);
-            WallPriceLbl.Content = updatePrices3[0] + "кр., " + updatePrices3[1] + "тов.";
+            updatePrices = Base.GetUpdatePrice(Base.Wall);
+            WallPriceLbl.Content = updatePrices[0] + "кр., " + updatePrices[1] + "тов.";
             WallLvlLabel.Content = "Lvl " + Base.Wall.Lvl;
 
-            double[] updatePrices4 = Base.GetUpdatePrice(Base.Workshop);
-            WorkshopPriceLbl.Content = updatePrices4[0] + "кр., " + updatePrices4[1] + "тов.";
+            updatePrices = Base.GetUpdatePrice(Base.Workshop);
+            WorkshopPriceLbl.Content = updatePrices[0] + "кр., " + updatePrices[1] + "тов.";
             WorkshopLvlLabel.Content = "Lvl " + Base.Workshop.Lvl;
 
-            double[] updatePrices5 = Base.GetUpdatePrice(Base.Portal);
-            PortalPriceLbl.Content = updatePrices5[0] + "кр., " + updatePrices5[1] + "тов.";
+            updatePrices = Base.GetUpdatePrice(Base.Portal);
+            PortalPriceLbl.Content = updatePrices[0] + "кр., " + updatePrices[1] + "тов.";
             PortalLvlLabel.Content = "Lvl " + Base.Portal.Lvl;
-
 
             Base.DefencePower();
             DeffenceLbl.Content = Base.Defence;
@@ -229,7 +227,6 @@ namespace GameWPF
             SpeedAmount.Content = Base.Army.SpeedUnits;
             DeffenceAmount.Content = Base.Army.DefenceUnits;
             AttackAmount.Content = Base.Army.AttackUnits;
-
         }
         private void SetImage(int row, int col, string URL)
         {
